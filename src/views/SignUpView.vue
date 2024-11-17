@@ -6,18 +6,18 @@
         <h1>Sign Up</h1>
         <p>Please signup to use platform</p>
       </div>
-      <form>
+      <form @submit="submit">
         <div class="box">
-          <input type="text" placeholder="Enter your name" />
-          <p class="form-error"></p>
+          <input type="text" placeholder="Enter your name" v-model="nameValue"/>
+          <p v-if="nameError" class="form-error">{{ nameError }}</p>
         </div>
         <div class="box">
-          <input type="email" placeholder="Enter your email">
-          <p class="form-error"></p>
+          <input type="email" placeholder="Enter your email" v-model="emailValue">
+          <p v-if="emailError" class="form-error">{{ emailError }}</p>
         </div>
         <div class="box">
-          <input type="password" placeholder="Enter your password" />
-          <p class="form-error"></p>
+          <input type="password" placeholder="Enter your password" v-model="passwordValue"/>
+          <p v-if="passwordError" class="form-error">{{ passwordError }}</p>
         </div>
         <button class="btn-primary ">Sign Up</button>
       </form>
@@ -29,6 +29,35 @@
 import {z} from 'zod'
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
+import type { UserForm } from '@/shared/interface';
+import { createUser } from '@/shared/services/UserService';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const validationSchema = toTypedSchema(z.object({
+  name: z.string({required_error: 'Name is required'}),
+  email: z.string({required_error:'Email is required'}),
+  password: z.string({required_error:'password is required'}).min(8,'le mot de passe doit faire au moin 8 caractere'),
+}));
+
+const {handleSubmit, setErrors} = useForm({
+  validationSchema,
+});
+
+const submit = handleSubmit(async(formValue: UserForm) => {
+  console.log(formValue);
+  try {
+    await createUser(formValue);
+    router.push('/signin');
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+const {value: nameValue, errorMessage: nameError, handleBlur: nameBlur} = useField('name');
+const {value: emailValue, errorMessage: emailError, handleBlur: emailBlur} = useField('email');
+const {value: passwordValue, errorMessage: passwordError, handleBlur: passwordBlur} = useField('password');
 </script>
 
 <style scoped lang="scss">
@@ -50,7 +79,6 @@ input {
 
 .hero__section {
   width: 400px;
-  height: 560px;
   padding: 20px;
   position: relative;
   background: rgba(255, 255, 255, 0.5);
@@ -99,5 +127,7 @@ button {
 }
 .form-error {
   color: var(--danger-1);
+  text-align: left;
+  margin-left: 15px;
 }
 </style>
