@@ -41,3 +41,7 @@ npm run lint
 <p>
 En général, on utilise les stores dans les composants conteneurs / intelligents et des props dans les composants bêtes / de présentation.
 </p>
+
+<code>
+npm i bcrypt jsonwebtoken mongoose cookie-parser nodemon
+</code>

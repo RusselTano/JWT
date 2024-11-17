@@ -8,56 +8,64 @@
       </div>
       <form @submit="submit">
         <div class="box">
-          <input type="text" placeholder="Enter your name" v-model="nameValue"/>
+          <input type="text" placeholder="Enter your name" v-model="nameValue" />
           <p v-if="nameError" class="form-error">{{ nameError }}</p>
         </div>
         <div class="box">
-          <input type="email" placeholder="Enter your email" v-model="emailValue">
+          <input type="email" placeholder="Enter your email" v-model="emailValue" />
           <p v-if="emailError" class="form-error">{{ emailError }}</p>
         </div>
         <div class="box">
-          <input type="password" placeholder="Enter your password" v-model="passwordValue"/>
+          <input type="password" placeholder="Enter your password" v-model="passwordValue" />
           <p v-if="passwordError" class="form-error">{{ passwordError }}</p>
         </div>
-        <button class="btn-primary ">Sign Up</button>
+        <button class="btn-primary">Sign Up</button>
       </form>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import {z} from 'zod'
-import { toTypedSchema } from '@vee-validate/zod';
-import { useField, useForm } from 'vee-validate';
-import type { UserForm } from '@/shared/interface';
-import { createUser } from '@/shared/services/UserService';
-import { useRouter } from 'vue-router';
+import { z } from 'zod'
+import { toTypedSchema } from '@vee-validate/zod'
+import { useField, useForm } from 'vee-validate'
+import type { UserForm } from '@/shared/interface'
+import { createUser } from '@/shared/services/UserService'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
-const validationSchema = toTypedSchema(z.object({
-  name: z.string({required_error: 'Name is required'}),
-  email: z.string({required_error:'Email is required'}),
-  password: z.string({required_error:'password is required'}).min(8,'le mot de passe doit faire au moin 8 caractere'),
-}));
+const validationSchema = toTypedSchema(
+  z.object({
+    name: z.string({ required_error: 'Name is required' }),
+    email: z.string({ required_error: 'Email is required' }),
+    password: z
+      .string({ required_error: 'password is required' })
+      .min(8, 'le mot de passe doit faire au moin 8 caractere'),
+  }),
+)
 
-const {handleSubmit, setErrors} = useForm({
+const { handleSubmit, setErrors } = useForm({
   validationSchema,
-});
+})
 
-const submit = handleSubmit(async(formValue: UserForm) => {
-  console.log(formValue);
+const submit = handleSubmit(async (formValue: UserForm) => {
+  console.log(formValue)
   try {
-    await createUser(formValue);
-    router.push('/signin');
+    await createUser(formValue)
+    router.push('/signin')
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-});
+})
 
-const {value: nameValue, errorMessage: nameError, handleBlur: nameBlur} = useField('name');
-const {value: emailValue, errorMessage: emailError, handleBlur: emailBlur} = useField('email');
-const {value: passwordValue, errorMessage: passwordError, handleBlur: passwordBlur} = useField('password');
+const { value: nameValue, errorMessage: nameError, handleBlur: nameBlur } = useField('name')
+const { value: emailValue, errorMessage: emailError, handleBlur: emailBlur } = useField('email')
+const {
+  value: passwordValue,
+  errorMessage: passwordError,
+  handleBlur: passwordBlur,
+} = useField('password')
 </script>
 
 <style scoped lang="scss">

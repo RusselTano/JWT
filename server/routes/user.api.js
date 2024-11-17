@@ -5,8 +5,13 @@ const bcrypt = require('bcrypt');
 router.post('/', async (req, res) => {
   const { username, email, password } = req.body;
   const user = new UserModel({ username, email, password: await bcrypt.hash(password, 10) });
-  await user.save();
-  res.json({ message: 'User created' });
+  try {
+    const savedUser = await user.save();
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de l\'enregistrement.', error: err.message });
+  }
+  
 });
 
 
