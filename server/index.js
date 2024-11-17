@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const port = process.env.PORT ?? "3000";
+const port = 3000;
 const router = require('./routes');
 
 require('./database');
