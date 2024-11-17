@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { User, SigninForm } from "../interface";
-import { fecthCurrentUser, signin } from "../services";
+import { fecthCurrentUser, signin, signout } from "../services";
 
 interface UserState{
   currentUser: User | null;
@@ -37,6 +37,10 @@ export const useUser = defineStore('user', {
     async fecthCurrentUser(){
       this.currentUser = await fecthCurrentUser();
       this.loaded = true;
+    },
+    async signout(){
+      await signout();
+      this.currentUser = null;
     }
   },
 });

@@ -31,20 +31,18 @@
 import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
-import type { UserForm } from '@/shared/interface'
+import type { UserForm, SigninForm } from '@/shared/interface'
 import { createUser } from '@/shared/services/UserService'
-import {useUser} from '@/shared/stores'
+import { useUser } from '@/shared/stores'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const userStore = useUser();
+const userStore = useUser()
 
 const validationSchema = toTypedSchema(
   z.object({
-    email: z.string({ required_error: 'Email is required' }),
-    password: z
-      .string({ required_error: 'password is required' })
-      .min(8, 'le mot de passe doit faire au moin 8 caractere'),
+    email: z.string({ required_error: 'Email is required' }).email('email is invalid'),
+    password: z.string({ required_error: 'password is required' }).min(8, 'le mot de passe doit faire au moin 8 caractere'),
   }),
 )
 
@@ -52,18 +50,17 @@ const { handleSubmit, setErrors } = useForm({
   validationSchema,
 })
 
-const submit = handleSubmit(async (formValue: UserForm) => {
+const submit = handleSubmit(async (formValue: SigninForm) => {
   try {
     await userStore.signin(formValue)
     router.push('/profile')
   } catch (e) {
-   setErrors({password: 'email or password is incorrect'})
+    setErrors({ password: 'email or password is incorrect' })
   }
 })
 
-const { value: emailValue, errorMessage: emailError, handleBlur: emailBlur } = useField('email')
-const {value: passwordValue,errorMessage: passwordError,handleBlur: passwordBlur} = useField('password')
-
+const { value: emailValue, errorMessage: emailError } = useField('email')
+const { value: passwordValue, errorMessage: passwordError } = useField('password')
 </script>
 
 <style scoped lang="scss">

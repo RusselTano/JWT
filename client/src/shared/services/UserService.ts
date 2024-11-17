@@ -1,6 +1,6 @@
 import type { User, UserForm } from "../interface";
 
-const BASE_URL = '/api/user';
+const BASE_URL = '/api/users';
 
 
 export async function createUser(userForm: UserForm) {

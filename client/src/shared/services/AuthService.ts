@@ -23,3 +23,13 @@ export async function signin(signinForm: SigninForm): Promise<User> {
   }
 }
 
+export async function signout(): Promise<void> {
+  try {
+    await fetch(BASE_URL, {
+      method: 'DELETE'
+    })
+  }
+  catch (error) {
+    throw error;
+  }
+}

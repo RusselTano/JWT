@@ -29,6 +29,7 @@ const props = defineProps<{
   isLoggedIn: boolean | null
 }>()
 
+
 const emit = defineEmits<{
   (e: 'logout'): void
 }>()
@@ -37,6 +38,9 @@ const emit = defineEmits<{
 <style scoped lang="scss">
 * {
   color: #f1f1f1;
+}
+li {
+  cursor: pointer;
 }
 .nav {
   background-color: var(--primary-1);

@@ -5,6 +5,7 @@ import SignUpView from '@/views/SignUpView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import { useUser } from '@/shared/stores'
+import { isNotAuthenticatedGuard, isAuthenticatedGuard } from '@/shared/guards'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,14 +16,17 @@ const router = createRouter({
     },
     {
       path: '/signin',
+      beforeEnter: [isNotAuthenticatedGuard],
       component: SignInView,
     },
     {
       path: '/signup',
+      beforeEnter: [isNotAuthenticatedGuard],
       component: SignUpView,
     },
     {
       path: '/profile',
+      beforeEnter: [isAuthenticatedGuard],
       component: ProfileView,
     },
     {
@@ -32,10 +36,10 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach(() => {
+router.beforeEach(async() => {
   const userStore = useUser();
   if(!userStore.loaded){
-    userStore.fecthCurrentUser();
+    await userStore.fecthCurrentUser();
   }
 });
 // router.beforeEach((to, from, next) => {

@@ -20,10 +20,11 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:3000',
-
-    }
-  }
-
-
+      '/api': {
+        target: 'http://localhost:3000', // Adresse du serveur back-end
+        changeOrigin: true,
+        secure: false, // Si vous utilisez HTTPS sans certificat valide
+      },
+    },
+  },
 });

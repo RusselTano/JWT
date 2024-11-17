@@ -50,7 +50,6 @@ const { handleSubmit, setErrors } = useForm({
 })
 
 const submit = handleSubmit(async (formValue: UserForm) => {
-  console.log(formValue)
   try {
     await createUser(formValue)
     router.push('/signin')
@@ -59,13 +58,9 @@ const submit = handleSubmit(async (formValue: UserForm) => {
   }
 })
 
-const { value: nameValue, errorMessage: nameError, handleBlur: nameBlur } = useField('name')
-const { value: emailValue, errorMessage: emailError, handleBlur: emailBlur } = useField('email')
-const {
-  value: passwordValue,
-  errorMessage: passwordError,
-  handleBlur: passwordBlur,
-} = useField('password')
+const { value: nameValue, errorMessage: nameError } = useField('name')
+const { value: emailValue, errorMessage: emailError } = useField('email')
+const { value: passwordValue, errorMessage: passwordError } = useField('password')
 </script>
 
 <style scoped lang="scss">
