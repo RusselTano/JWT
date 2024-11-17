@@ -3,10 +3,14 @@
     <div class="hero__section">
       <div class="logo"><img src="../assets/images/logo.png" /></div>
       <div class="title">
-        <h1>Sign In</h1>
-        <p>Please login to use platform</p>
+        <h1>Sign Up</h1>
+        <p>Please signup to use platform</p>
       </div>
       <form>
+        <div class="box">
+          <input type="text" placeholder="Enter your name" />
+          <p class="form-error"></p>
+        </div>
         <div class="box">
           <input type="email" placeholder="Enter your email">
           <p class="form-error"></p>
@@ -15,19 +19,17 @@
           <input type="password" placeholder="Enter your password" />
           <p class="form-error"></p>
         </div>
-        <div class="checkbox">
-          <input type="checkbox" id="check" />
-          <label for="check">Remenber me</label>
-          <a href="">Forgot password?</a>
-        </div>
-        <button class="btn-primary ">Sign In</button>
-        <p>Don't have an account? <RouterLink to="/signup">Sing up</RouterLink></p>
+        <button class="btn-primary ">Sign Up</button>
       </form>
     </div>
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {z} from 'zod'
+import { toTypedSchema } from '@vee-validate/zod';
+import { useField, useForm } from 'vee-validate';
+</script>
 
 <style scoped lang="scss">
 main {
@@ -48,6 +50,7 @@ input {
 
 .hero__section {
   width: 400px;
+  height: 560px;
   padding: 20px;
   position: relative;
   background: rgba(255, 255, 255, 0.5);
@@ -84,16 +87,6 @@ form {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.checkbox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  a {
-    margin-left: auto;
-  }
-}
-
 input[type='checkbox'] {
   accent-color: var(--primary-2);
 }
@@ -102,6 +95,7 @@ button {
   border-radius: 999px;
   padding: 12px;
   font-size: 1rem;
+  margin-bottom: 50px;
 }
 .form-error {
   color: var(--danger-1);

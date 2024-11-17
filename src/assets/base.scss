@@ -23,7 +23,13 @@
 // reset
 * {
   box-sizing: border-box;
+
+  &:focus {
+    outline: 2px solid var(--primary-1);
+  }
 }
+
+
 
 h1,
 h2,
@@ -144,17 +150,49 @@ input, select, textarea {
   border-radius: var(--border-radius);
   padding: 8px 15px;
 }
+
+label {
+  cursor: pointer;
+}
+
+input::placeholder,textarea::placeholder {
+  font-size: 1rem;
+}
+
+input {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
 .form-error {
   color: var(--danger-1);
   font-size: 14px;
 }
+
 select {
   cursor: pointer;
 }
 
 
-.btn {
-  padding: 8px 15px;
+// button {
+//   border: 0;
+//   padding: 10px;
+//   margin: 0 19px;
+//   border-radius: 999px;
+//   background-color: var(--primary-1);
+//   color: white;
+//   text-transform: uppercase;
+//   letter-spacing: 2px;
+//   cursor: pointer;
+//   transition: 0.3s ease-in-out;
+// }
+
+// button:hover {
+//   background-color: rgba(0, 0, 0, 0.8);
+// }
+
+button {
+  padding: 10px 15px;
   border-radius: var(--radius);
   cursor: pointer;
   transition: background-color 0.2s;
