@@ -12,7 +12,7 @@
          Log out
         </li>
       </template>
-      <template v-else>
+      <template v-else-if="isLoggedIn == false">
         <li>
           <RouterLink to="/signin">Sign in</RouterLink>
         </li>
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  isLoggedIn: boolean
+  isLoggedIn: boolean | null
 }>()
 
 const emit = defineEmits<{

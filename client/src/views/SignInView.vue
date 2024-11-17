@@ -56,8 +56,8 @@ const submit = handleSubmit(async (formValue: UserForm) => {
   try {
     await userStore.signin(formValue)
     router.push('/profile')
-  } catch (error) {
-    console.log(error)
+  } catch (e) {
+   setErrors({password: 'email or password is incorrect'})
   }
 })
 

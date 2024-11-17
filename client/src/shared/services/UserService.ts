@@ -1,4 +1,4 @@
-import type { UserForm } from "../interface";
+import type { User, UserForm } from "../interface";
 
 const BASE_URL = '/api/user';
 
@@ -22,4 +22,8 @@ export async function createUser(userForm: UserForm) {
   catch (error) {
     throw error;
   }
+}
+
+export async function fecthCurrentUser(): Promise<User | null> {
+    return  await(await fetch(`${BASE_URL}/current`)).json();
 }

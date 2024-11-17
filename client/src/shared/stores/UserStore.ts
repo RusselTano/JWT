@@ -1,26 +1,42 @@
 import { defineStore } from "pinia";
 import type { User, SigninForm } from "../interface";
-import { signin } from "../services";
+import { fecthCurrentUser, signin } from "../services";
 
 interface UserState{
   currentUser: User | null;
-  error: any;
+  loaded: boolean;
 }
 
 export const useUser = defineStore('user', {
   state: (): UserState => ({
     currentUser: null,
-    error: null,
+    loaded: false,
   }),
+  getters: {
+    isLoggedIn(state): boolean | null {
+      if (state.currentUser) {
+        return true;
+      }
+      else if(!state.currentUser && state.loaded){
+        return false;
+      }
+      else {
+        return null;
+      }
+    }
+  },
   actions: {
     async signin(signinForm: SigninForm){
       // API call
       try {
         this.currentUser = await signin(signinForm);
-        this.error = null;
       } catch (error) {
-        this.error = error;
+        throw error;
       }
+    },
+    async fecthCurrentUser(){
+      this.currentUser = await fecthCurrentUser();
+      this.loaded = true;
     }
   },
 });

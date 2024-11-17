@@ -1,17 +1,22 @@
 <template>
   <div class="d-flex flex-column app-container">
-    <Header @logout="logout" :is-logged-in="isLoggedIn"/>
+    <Header :is-logged-in="userStore.isLoggedIn" @logout="logout"/>
     <RouterView class="flex-fill"/>
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
 import Header from './components/Header.vue'
+import { useUser } from './shared/stores'
 
-const isLoggedIn = ref(false)
-function logout(){
-  isLoggedIn.value = false
+
+const userStore = useUser();
+
+function logout() {
+
 }
+
+
+
 </script>
 <style scoped>
 .app-container{
